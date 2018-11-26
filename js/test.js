@@ -1,13 +1,15 @@
-/*Testeá la función reservarHorario(horario). Las pruebas que realices tienen que verificar que:
-Cuando se reserva un horario de un restaurant, el horario correspondiente se elimina del arreglo.
-Cuando se reserva un horario que el restaurant no posee, el arreglo se mantiene igual.
-Cuando se intenta reservar un horario pero no se le pasa ningún parámetro a la función, el arreglo se mantiene igual*/
-
 var assert = require("assert");
-var expect = require("chai").expect; //de todo chai trae solamente expect
+var expect = require("chai").expect;
 
-//DUDA: CREO QUE DEBERIA SELECCIONAR UN RESTAURANT PARA TESTEAR, SE TESTEA UNO EN ESPECIAL?. si
-var restaurantParaTest = new Restaurant(10, "New London Cafe", "Desayuno", "Londres", ["12:00", "13:00", "14:30"], "../img/desayuno3.jpg", [9, 4, 6, 5, 6]);
+var restaurantParaTest = new Restaurant(
+  10,
+  "New London Cafe",
+  "Desayuno",
+  "Londres",
+  ["12:00", "13:00", "14:30"],
+  "../img/desayuno3.jpg",
+  [9, 4, 6, 5, 6]
+);
 
 describe("Test funcion reservarHorario", function() {
   it("Horario reservado se elimina del array", function() {
@@ -15,75 +17,140 @@ describe("Test funcion reservarHorario", function() {
     var horarioReservado = reservarHorario("12:00");
     expect(restaurantParaTest.horarios.lentgth).to.equal(
       horariosAnteriorALaReserva.length - 1
-    ); //acá chequea que despues de la reserva se haya eliminado el horario reservado del array, es decir que tenga un elemento menos
+    );
   });
   it("Reservar horario que no existe", function() {
     var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios.length;
-    var reservarHorarioQueNoExiste = reservarHorario("17:00"); //horarioquenoexiste
+    var reservarHorarioQueNoExiste = reservarHorario("17:00");
     expect(restaurantParaTest.horarios).to.equal(
-        arrayDeHorariosAnteriorALaReserva
-      ); 
+      arrayDeHorariosAnteriorALaReserva
+    );
   });
   it("Reservar sin parametro", function() {
     var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios.length;
     var reservarSinParametro = reservarHorario();
     expect(restaurantParaTest.horarios).to.equal(
-        arrayDeHorariosAnteriorALaReserva);
+      arrayDeHorariosAnteriorALaReserva
+    );
+  });
 });
-
-
-});
-
-/*Testeá la función obtenerPuntuacion(). Las pruebas que realices tienen que verificar que:
-Dado un restaurant con determinadas calificaciones, la puntuación (que es el promedio de ellas) se calcula correctamente.
-Dado un restaurant que no tiene ninguna calificación, la puntuación es igual a 0.*/
 
 describe("Test funcion obtenerPuntuacion", function() {
   it("Calculo correcto de puntuacion", function() {
-      expect(restaurantParaTest.obtenerPuntuacion()).to.equal((9 + 4 + 6 + 5 +6)/5);
+    expect(restaurantParaTest.obtenerPuntuacion()).to.equal(
+      (9 + 4 + 6 + 5 + 6) / 5
+    );
   });
   it("Restaurant sin calificacion", function() {
-      expect(restaurantParaTest.obtenerPuntuacion()).to.equal(0);
+    expect(restaurantParaTest.obtenerPuntuacion()).to.equal(0);
   });
 });
 
-/* Paso 4: Testeá la función calificar()
-Testeá la función calificar(). En este paso, podés elegir vos las pruebas que quieras hacer.*/
-
 describe("Test función calificar", function() {
-    it("Testear que solo se agregue al arreglo la calificación que sea un numero válido y del 1 al 10", function() {
-        var calificacionesAntesDelTest = restaurantParaTest.calificaciones
-        restaurantParaTest.calificar(m);
-        expect(restaurantParaTest.calificaciones).to.equal(calificacionesAntesDelTest);
-        restauranteParaTest.calificar(100);
-        expect(restaurantParaTest.calificaciones).to.equal(calificacionesAntesDelTest);
-        restauranteParaTest.calificar(-15)
-        expect(restaurantParaTest.calificaciones).to.equal(calificacionesAntesDelTest);
-        restaurantParaTest.calificar(0);
-        expect(restaurantParaTest.calificaciones).to.equal(calificacionesAntesDelTest);
-
-    }
-);
+  it("Testear que solo se agregue al arreglo la calificación que sea un numero válido y del 1 al 10", function() {
+    var calificacionesAntesDelTest = restaurantParaTest.calificaciones;
+    restaurantParaTest.calificar(m);
+    expect(restaurantParaTest.calificaciones).to.equal(
+      calificacionesAntesDelTest
+    );
+    restauranteParaTest.calificar(100);
+    expect(restaurantParaTest.calificaciones).to.equal(
+      calificacionesAntesDelTest
+    );
+    restauranteParaTest.calificar(-15);
+    expect(restaurantParaTest.calificaciones).to.equal(
+      calificacionesAntesDelTest
+    );
+    restaurantParaTest.calificar(0);
+    expect(restaurantParaTest.calificaciones).to.equal(
+      calificacionesAntesDelTest
+    );
+  });
 });
 
-
-/*
-
-Paso 5: Testeá la función buscarRestaurante(id)
-Testeá la función buscarRestaurante(id). En este paso, podés elegir vos las pruebas que quieras hacer.*/
-
-describe("Test buscarRestaurante por id", function() {
-  it('Retorna el restaurant correcto al pasar el ID', function () {
-    expect(listadoTest.buscarRestaurante(5)).to.eql(listadoTest.restaurantes[4]);
+describe("Buscar Restaurante por id", function() {
+  it("Retorna el restaurant correcto al pasar el ID", function() {
+    expect(listadoTest.buscarRestaurante(5)).to.eql(
+      listadoTest.restaurantes[4]
+    );
+  });
+  it("Si no existe el ID o es un dato invalido devuelve error", function() {
+    expect(listadoTest.buscarRestaurante(0)).to.equal(
+      "No se ha encontrado ningún restaurant"
+    );
+    expect(listadoTest.buscarRestaurante("a")).to.equal(
+      "No se ha encontrado ningún restaurant"
+    );
+    expect(listadoTest.buscarRestaurante(-40)).to.equal(
+      "No se ha encontrado ningún restaurant"
+    );
+  });
 });
-it('Si no existe el ID o es un dato invalido devuelve error', function () {
-    expect(listadoTest.buscarRestaurante(0)).to.equal("No se ha encontrado ningún restaurant");
-    expect(listadoTest.buscarRestaurante("a")).to.equal("No se ha encontrado ningún restaurant");
-    expect(listadoTest.buscarRestaurante(-40)).to.equal("No se ha encontrado ningún restaurant");
-  
-});
-});
 
-
-/*Paso 6: Testeá la función obtenerRestaurantes()
-Testeá la función obtenerRestaurantes() para comprobar su funcionamiento. En este paso, podés elegir vos la pruebas que quieras hacer.*/
+describe("Obtener restaurante", function() {
+  it("Filtro con tres parametros", function() {
+    var tresParametros = listado.obtenerRestaurantes(
+      "Desayuno",
+      "Londres",
+      "12:00"
+    );
+    var resultado = [
+      new Restaurant(
+        10,
+        "New London Cafe",
+        "Desayuno",
+        "Londres",
+        ["12:00", "13:00", "14:30"],
+        "../img/desayuno3.jpg",
+        [9, 4, 6, 5, 6]
+      )
+    ];
+    expect(tresParametros).to.eql(resultado);
+  });
+  it("Si no se pasa parametro no se filtra el listado", function() {
+    var sinParametros = listado.obtenerRestaurantes(null, null, null);
+    expect(listado.restaurantes).to.eql(sinParametros);
+  });
+  it("Si pasa un filtro solo devuelve la lista que corresponde", function() {
+    var unParametro = listado.obtenerRestaurantes(null, "Londres", null);
+    var resultadoEsperado = [
+      new Restaurant(
+        2,
+        "Mandarín Kitchen",
+        "Asiática",
+        "Londres",
+        ["15:00", "14:30", "12:30"],
+        "../img/asiatica2.jpg",
+        [7, 7, 3, 9, 7]
+      ),
+      new Restaurant(
+        10,
+        "New London Cafe",
+        "Desayuno",
+        "Londres",
+        ["12:00", "13:00", "14:30"],
+        "../img/desayuno3.jpg",
+        [9, 4, 6, 5, 6]
+      ),
+      new Restaurant(
+        18,
+        "Pizza Union Spitalfields",
+        "Pizza",
+        "Londres",
+        ["12:00", "15:00", "17:30"],
+        "../img/pizza1.jpg",
+        [8, 8, 8, 4, 6, 7]
+      ),
+      new Restaurant(
+        22,
+        "Byron Hoxton",
+        "Hamburguesa",
+        "Londres",
+        ["14:00", "16:00", "21:30"],
+        "../img/hamburguesa3.jpg",
+        [4, 9, 10, 10, 6]
+      )
+    ];
+    expect(unParametro).to.eql(resultadoEsperado);
+  });
+});
