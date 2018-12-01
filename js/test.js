@@ -1,5 +1,17 @@
 var assert = require("assert");
 var expect = require("chai").expect;
+var app = require('./restaurant.js');
+
+
+var Restaurant = function(id, nombre, rubro, ubicacion, horarios, imagen, calificaciones) {
+  this.id = id;
+  this.nombre = nombre;
+  this.rubro = rubro;
+  this.ubicacion = ubicacion;
+  this.horarios = horarios;
+  this.imagen = imagen;
+  this.calificaciones = calificaciones;
+}
 
 var restaurantParaTest = new Restaurant(
   10,
