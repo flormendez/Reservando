@@ -25,6 +25,7 @@ function sumatoria(numbers) {
 function promedio(promediar) {
   return Math.round(((sumatoria(promediar) / promediar.length) * 10) / 10);
 }
+
 Restaurant.prototype.reservarHorario = function(horarioReservado) {
   for (var i = 0; i < this.horarios.length; i++) {
     if (this.horarios[i] === horarioReservado) {

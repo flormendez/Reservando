@@ -1,17 +1,6 @@
-var assert = require("assert");
-var expect = require("chai").expect;
-var app = require('./restaurant.js');
+var expect = chai.expect;
 
-
-var Restaurant = function(id, nombre, rubro, ubicacion, horarios, imagen, calificaciones) {
-  this.id = id;
-  this.nombre = nombre;
-  this.rubro = rubro;
-  this.ubicacion = ubicacion;
-  this.horarios = horarios;
-  this.imagen = imagen;
-  this.calificaciones = calificaciones;
-}
+var listadoTest= new Listado(listadoDeRestaurantes)
 
 var restaurantParaTest = new Restaurant(
   10,
@@ -21,26 +10,35 @@ var restaurantParaTest = new Restaurant(
   ["12:00", "13:00", "14:30"],
   "../img/desayuno3.jpg",
   [9, 4, 6, 5, 6]
+  
 );
 
-describe("Test funcion reservarHorario", function() {
+var restaurantParaTestSinCalificacion = new Restaurant(  10,
+  "New London Cafe",
+  "Desayuno",
+  "Londres",
+ 
+  "../img/desayuno3.jpg",
+ 
+
+)
+
+describe('Test funcion reservarHorario', function() {
   it("Horario reservado se elimina del array", function() {
     var horariosAnteriorALaReserva = restaurantParaTest.horarios.length;
-    var horarioReservado = reservarHorario("12:00");
-    expect(restaurantParaTest.horarios.lentgth).to.equal(
-      horariosAnteriorALaReserva.length - 1
-    );
+   restaurantParaTest.reservarHorario('12:00');
+    expect(restaurantParaTest.horarios.length).to.equal(horariosAnteriorALaReserva-1);
   });
   it("Reservar horario que no existe", function() {
-    var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios.length;
-    var reservarHorarioQueNoExiste = reservarHorario("17:00");
+    var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios;
+    restaurantParaTest.reservarHorario("17:00");
     expect(restaurantParaTest.horarios).to.equal(
       arrayDeHorariosAnteriorALaReserva
     );
   });
   it("Reservar sin parametro", function() {
-    var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios.length;
-    var reservarSinParametro = reservarHorario();
+    var arrayDeHorariosAnteriorALaReserva = restaurantParaTest.horarios;
+    restaurantParaTest.reservarHorario();
     expect(restaurantParaTest.horarios).to.equal(
       arrayDeHorariosAnteriorALaReserva
     );
@@ -49,31 +47,30 @@ describe("Test funcion reservarHorario", function() {
 
 describe("Test funcion obtenerPuntuacion", function() {
   it("Calculo correcto de puntuacion", function() {
-    expect(restaurantParaTest.obtenerPuntuacion()).to.equal(
-      (9 + 4 + 6 + 5 + 6) / 5
-    );
+
+    expect(restaurantParaTest.obtenerPuntuacion()).to.equal((9 + 4 +  6 + 5 + 6)/ 5);
   });
   it("Restaurant sin calificacion", function() {
-    expect(restaurantParaTest.obtenerPuntuacion()).to.equal(0);
+    expect(restaurantParaTestSinCalificacion.obtenerPuntuacion()).to.equal(0);
   });
 });
 
 describe("Test función calificar", function() {
   it("Testear que solo se agregue al arreglo la calificación que sea un numero válido y del 1 al 10", function() {
     var calificacionesAntesDelTest = restaurantParaTest.calificaciones;
-    restaurantParaTest.calificar(m);
+    restaurantParaTest.calificar("m");
     expect(restaurantParaTest.calificaciones).to.equal(
       calificacionesAntesDelTest
     );
-    restauranteParaTest.calificar(100);
+    restauranteParaTest.calificar("100");
     expect(restaurantParaTest.calificaciones).to.equal(
       calificacionesAntesDelTest
     );
-    restauranteParaTest.calificar(-15);
+    restauranteParaTest.calificar("-15");
     expect(restaurantParaTest.calificaciones).to.equal(
       calificacionesAntesDelTest
     );
-    restaurantParaTest.calificar(0);
+    restaurantParaTest.calificar("0");
     expect(restaurantParaTest.calificaciones).to.equal(
       calificacionesAntesDelTest
     );
@@ -166,3 +163,25 @@ describe("Obtener restaurante", function() {
     expect(unParametro).to.eql(resultadoEsperado);
   });
 });
+
+describe('Calculo de precio base de una reserva', function(){
+  it('Calculo de precio base con todos los datos pasados correctamente', function(){
+    var primeraReserva = new Reserva(newDate (2018,11,3,15,00), 4, 300, DES15);
+    expect (primeraReserva.calcularPrecioBase).to.be.equal(1200);
+    var segundaReserva = newReserva(newDate (2018,11,1,13,00), 2, 400, DES200);
+    expect (segundaReserva.calcularPrecioBase).to.be.equal(800)
+    var terceraReserva = new Reserva (new Date(2018, 7, 24, 11, 00), 8, 350, "DES1")
+    expect (terceraReserva.calcularPrecioBase).to.be.equal(2800)
+  it('Calculo de precio base con datos incorrectos, devuelve error', function(){
+    var cuartaReserva=new Reserva (newDate(2018,11,28,14,00),a, 400, "DES15");
+    var quintaReserva= new Reserva (newDate(2018,11,28,14,00),6,null,"")
+    var sextaReserva=new Reserva (null,8,800,"")
+    expect (cuartaReserva.calcularPrecioBase).to.be.equal('Dato incorrecto')
+    expect (quintaReserva.calcularPrecioBase).to.be.equal('Dato incorrecto')
+    expect (sextaReserva.calcularPrecioBase).to.be.equal('Dato incorrecto')
+
+
+  })
+
+  })
+})
