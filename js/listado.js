@@ -17,14 +17,24 @@ Listado.prototype.calificarRestaurant = function(id, calificacion) {
 };
 
 //Dado un id, busca el objeto del listado que tiene ese id
+
+//Dado un id, busca el objeto del listado que tiene ese id
 Listado.prototype.buscarRestaurante = function(id) {
-var obtenerRestaruantePorId = this.restaurantes.find((restaurant) => restaurant.id===id)
+  for (var i = 0; i < this.restaurantes.length; i++) {
+      if (this.restaurantes[i].id === id) {
+          return this.restaurantes[i]
+      }
+  }
+  return "No se ha encontrado ningún restaurant";
+}
+//Listado.prototype.buscarRestaurante = function(id) {
+//var obtenerRestaruantePorId = this.restaurantes.find((restaurant) => restaurant.id===id)
   
-  //return obtenerRestaruantePorId == undefined  "No se ha encontrado ningún restaurant";
-};
+  //return obtenerRestaruantePorId == undefined  "No se ha encontrado ningún restaurant";};
+//
 
 function sinRepetidos(arrayEntero) {
-    arrayEntero.filter((elem, index, self) => index === self.indexOf(elem));
+   return arrayEntero.filter((elem, index, self) => index === self.indexOf(elem));
   }
   
   function obtenerAtributos(listado, propiedad) {

@@ -17,10 +17,8 @@ var Restaurant = function(
 };
 
 function sumatoria(numbers) {
-  numbers.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue;
-  }, 0);
-}
+  return numbers.reduce((accumulator, currentValue) =>  accumulator + currentValue)
+};
 
 function promedio(promediar) {
   return Math.round(((sumatoria(promediar) / promediar.length) * 10) / 10);
