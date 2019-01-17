@@ -198,4 +198,103 @@ describe("Calculo del precio final de reserva", function() {
     expect(reserva1.calcularPrecioFinal()).to.be.equal((2 * 400 - 200) * 1.05);
     expect(reserva2.calcularPrecioFinal()).to.be.equal((3 * 300 - 300) * 1.05);
   });
+  it("Calculo precio de reservas fin de semana, hora pico, grupos < a 4 con descuentos.", function() {
+    var reserva1 = new Reserva(
+      new Date(2018, 11, 29, 13, 00),
+      2,
+      400,
+      "DES200"
+    );
+    expect(reserva1.calcularPrecioFinal()).to.be.equal((2 * 400 - 200) * 1.15);
+  });
+  it("Calculo de precio de reservas día de semana, hora no pico, grupos menores a 4 sin descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 11, 00), 3, 400, "");
+    var reserva2 = new Reserva(new Date(2018, 11, 24, 11, 00), 2, 150, "");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(3 * 400);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(2 * 150);
+  });
+  it("Calculo de precio de reservas día de semana, hora no pico, grupos menores a 4 con descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 11, 00), 3, 400, "DES200");
+    var reserva2 = new Reserva(new Date(2018, 11, 24, 11, 00), 2, 150, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(3 * 400 - 200);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(2 * 150 - 150);
+  });
+  it("Calculo de precio de reservas día de semana, hora pico, grupos de cuatro a seis con descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 13, 00), 5, 400, "DES200");
+    var reserva2 = new Reserva(new Date(2018, 11, 12, 13, 00), 5, 300, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(
+      (5 * 400 - 200) * 0.95 * 1.05
+    );
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(
+      (5 * 300 - 300) * 0.95 * 1.05
+    );
+  });
+
+  it("Calculo de precio de reservas día de semana, hora no pico, grupos de cuatro a seis con descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 11, 00), 5, 400, "DES200");
+    var reserva2 = new Reserva(new Date(2018, 11, 24, 11, 00), 5, 150, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal((5 * 400 - 200) * 0.95);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal((5 * 150 - 150) * 0.95);
+  });
+  it("Calculo de precio de reservas fin de semana, hora pico, grupos de cuatro a seis sin descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 11, 29, 13, 00), 5, 400, "");
+    var reserva2 = new Reserva(new Date(2018, 11, 29, 13, 00), 5, 150, "");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(5 * 400 * 0.95 * 1.15);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(5 * 150 * 0.95 * 1.15);
+  });
+  it("Calculo de precio de reservas fin de semana, hora no pico, grupos de cuatro a seis con descuento", function() {
+    var reserva1 = new Reserva(
+      new Date(2018, 11, 22, 11, 00),
+      5,
+      400,
+      "DES200"
+    );
+    var reserva2 = new Reserva(new Date(2018, 11, 29, 11, 00), 5, 150, "DES15");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(
+      (5 * 400 - 200) * 0.95 * 1.1
+    );
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(
+      5 * 150 * 0.85 * 0.95 * 1.1
+    );
+  });
+
+  it("Calculo de precio de reservas día de semana, hora pico, grupos de siete a ocho con descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 13, 00), 7, 400, "DES200");
+    var reserva2 = new Reserva(new Date(2018, 11, 24, 13, 00), 8, 150, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(
+      (7 * 400 - 200) * 0.9 * 1.05
+    );
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(
+      (8 * 150 - 150) * 0.9 * 1.05
+    );
+  });
+  it("Calculo de precio de reservas día de semana, hora no pico, grupos de siete a ocho con descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 6, 23, 11, 00), 7, 400, "DES200");
+    var reserva2 = new Reserva(new Date(2018, 11, 24, 11, 00), 8, 150, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal((7 * 400 - 200) * 0.9);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal((8 * 150 - 150) * 0.9);
+  });
+
+  it("Calculo de precio de reservas fin de semana, hora pico, grupos de siete a ocho sin descuento", function() {
+    var reserva1 = new Reserva(new Date(2018, 11, 29, 13, 00), 7, 400, "");
+    var reserva2 = new Reserva(new Date(2018, 11, 29, 13, 00), 8, 150, "");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(7 * 400 * 0.9 * 1.15);
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(8 * 150 * 0.9 * 1.15);
+  });
+
+  it("Calculo de precio de reservas fin de semana, hora no pico, grupos de siete a ocho con descuento", function() {
+    var reserva1 = new Reserva(
+      new Date(2018, 11, 29, 11, 00),
+      7,
+      400,
+      "DES200"
+    );
+    var reserva2 = new Reserva(new Date(2018, 11, 29, 11, 00), 8, 150, "DES1");
+    expect(reserva1.calcularPrecioFinal()).to.be.equal(
+      (7 * 400 - 200) * 0.9 * 1.1
+    );
+    expect(reserva2.calcularPrecioFinal()).to.be.equal(
+      (8 * 150 - 150) * 0.9 * 1.1
+    );
+  });
 });

@@ -20,43 +20,33 @@ Listado.prototype.calificarRestaurant = function(id, calificacion) {
 
 //Dado un id, busca el objeto del listado que tiene ese id
 Listado.prototype.buscarRestaurante = function(id) {
-  for (var i = 0; i < this.restaurantes.length; i++) {
-      if (this.restaurantes[i].id === id) {
-          return this.restaurantes[i]
-      }
-  }
-  return "No se ha encontrado ningún restaurant";
-}
-//Listado.prototype.buscarRestaurante = function(id) {
-//var obtenerRestaruantePorId = this.restaurantes.find((restaurant) => restaurant.id===id)
-  
-  //return obtenerRestaruantePorId == undefined  "No se ha encontrado ningún restaurant";};
-//
+  var found = this.restaurantes.find(restaurant => restaurant.id === id);
+  return found == undefined ? "No se ha encontrado ningún restaurant" : found;
+};
 
-function sinRepetidos(arrayEntero) {
-   return arrayEntero.filter((elem, index, self) => index === self.indexOf(elem));
-  }
-  
-  function obtenerAtributos(listado, propiedad) {
-    return listado.restaurantes.map(function(restaurante) {
-      return restaurante[propiedad];
-    });
-  }
+function sinRepetidos(array) {
+  return array.filter((elem, index, self) => index === self.indexOf(elem));
+}
+
+function obtenerAtributos(listado, propiedad) {
+  return listado.restaurantes.map(function(restaurante) {
+    return restaurante[propiedad];
+  });
+}
 
 //Obtiene todas las ciudades de los restaurantes sin repetidos
 Listado.prototype.obtenerCiudades = function() {
   //Array donde se van a ir agregando las ciudades (van a estar repetidas)
-  var ciudades = obtenerAtributos(this,'ubicacion');
-  
+  var ciudades = obtenerAtributos(this, "ubicacion");
+
   //Se crea un nuevo array donde se van a agregar las ciudades pero sin repetirse
   var ciudadesSinRepetir = sinRepetidos(ciudades);
 
   return ciudadesSinRepetir.sort();
 };
 
-
 //Obtiene todos los rubros de los restaurantes sin repetidos. Su funcionamiento es similar a obtC()
-Listado.prototype.obtenetRubros = function() {
+Listado.prototype.obtenerRubros = function() {
   var rubros = obtenerAtributos(this, "rubro");
 
   var mostrarRubrosSinRepetir = sinRepetidos(rubros);
@@ -74,14 +64,14 @@ Listado.prototype.obtenerHorarios = function() {
 
   //En este arreglo vamos a poner todos los horarios, uno por uno
   var horariosUnoPorUno = [];
-  arregloH.forEach(function(arregloHorarios) {
-    a.forEach(function(horario) {
+  arregloHorarios.forEach(function(arregloDeHorarios) {
+    arregloDeHorarios.forEach(function(horario) {
       horariosUnoPorUno.push(horario);
     });
   });
 
   //En este arreglo vamos a poner todos los horarios pero sin repetidos
-  var horariosSinRepetir = sinRepetidos(horarios);
+  var horariosSinRepetir = sinRepetidos(horariosUnoPorUno);
 
   return horariosSinRepetir.sort();
 };

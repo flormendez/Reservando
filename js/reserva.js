@@ -61,6 +61,14 @@ Reserva.prototype.adicionalHorarioYFecha = function(precio) {
   }
 };
 
+Reserva.prototype.adicionalFinDeSemana = function(precio) {
+  return this.fecha.getDay() == 0 ||
+    this.fecha.getDay() == 5 ||
+    this.fecha.getDay() == 6
+    ? precio * 1.1
+    : precio;
+};
+
 Reserva.prototype.calcularPrecioFinal = function() {
   if (
     Number.isInteger(this.cantPersonas) &&
